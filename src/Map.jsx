@@ -1,7 +1,15 @@
 import React from "react";
 import { useState,useEffect } from "react";
+import CameraPlayer from "./liveRender";
 import { db } from "./firebase";
 import { ref, onValue } from "firebase/database";
+const roomStreams = {
+  roomA: "http://100.117.158.50:8888/cam1/index.m3u8",
+  roomB: "http://100.117.158.50:8888/cam1/index.m3u8",
+  roomC: "http://100.117.158.50:8888/cam1/index.m3u8",
+  roomD: "http://100.117.158.50:8888/cam1/index.m3u8",
+};
+
 const rooms = {
   roomA: { x: "47.5%", y: "42.5%", w: "50%", h: "43%", color: "rgba(255,0,0,0.4)" },
   //  roomB: { x: "41%", y: "72%", w: "36.5%", h: "12.5%", color: "rgba(0,255,0,0.4)" },
@@ -18,6 +26,7 @@ const rooms = {
 };
 
 const Map = () => {
+  const [selectedRoom, setSelectedRoom] = useState(null);
     const [offsets, setOffsets] = useState({});
     const [positions, setPositions] = useState({});
     const [roomOffsets, setRoomOffsets] = useState({});
@@ -103,7 +112,7 @@ useEffect(() => {
 }, []);
   return (
     <>
-    {Object.entries(rooms).map(([roomId, room]) => (
+{Object.entries(rooms).map(([roomId, room]) => (
   <div
     key={roomId}
     style={{
@@ -112,13 +121,30 @@ useEffect(() => {
       top: room.y,
       width: room.w,
       height: room.h,
-    //   backgroundColor: room.color,
-    //   border: "2px solid black",
       transform: "translate(-50%, -50%)",
-      zIndex:1
+      zIndex: 1,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column",
     }}
   >
     <span style={{ fontSize: 12 }}>{roomId}</span>
+
+    <button
+      onClick={() => setSelectedRoom(roomId)}
+      style={{
+        padding: "4px 8px",
+        background: "red",
+        color: "white",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+        zIndex: 1000
+      }}
+    >
+      🔴 Live
+    </button>
   </div>
 ))}
 {Object.entries(users).map(([id, user], index) => {
@@ -167,6 +193,42 @@ top: `calc(${pos.y} + ${roomOffset.y}px + ${offset.y}px)`,
   }}
 />
     </div>
+    {selectedRoom && (
+  <div
+    style={{
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  background: "white",
+  padding: 20,
+  borderRadius: 10,
+  zIndex: 9999,
+  boxShadow: "0 0 20px rgba(0,0,0,0.5)",
+  width: "70vw",
+  maxWidth: "900px"
+}}
+  >
+    <button
+      onClick={() => setSelectedRoom(null)}
+      style={{
+        float: "right",
+        background: "red",
+        color: "white",
+        border: "none",
+        padding: "5px 10px",
+        cursor: "pointer"
+      }}
+    >
+      ✖
+    </button>
+
+    <h3>{selectedRoom} Live Feed</h3>
+
+     
+    <CameraPlayer url={roomStreams[selectedRoom]} />
+  </div>
+)}
     </>
   );
 };
