@@ -147,7 +147,9 @@ useEffect(() => {
     </button>
   </div>
 ))}
-{Object.entries(users).map(([id, user], index) => {
+{Object.entries(users)
+.filter(([id, user]) => user.confidence > 90)
+.map(([id, user], index) => {
   const pos = positions[id];
   if (!pos) return null;
 const offset = offsets[id] || { x: 0, y: 0 };
