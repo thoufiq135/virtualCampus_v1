@@ -5,12 +5,12 @@ import { db } from "./firebase";
 import { ref, onValue } from "firebase/database";
 
 const roomStreams = {
-  roomA: "https://overstudiously-burglarproof-sid.ngrok-free.dev/api/cam1/index.m3u8",
-  roomB: "https://overstudiously-burglarproof-sid.ngrok-free.dev/api/cam2/index.m3u8",
-  roomC: "https://overstudiously-burglarproof-sid.ngrok-free.dev/api/cam3/index.m3u8",
-  roomD: "https://overstudiously-burglarproof-sid.ngrok-free.dev/api/cam4/index.m3u8",
-  roomG: "https://overstudiously-burglarproof-sid.ngrok-free.dev/api/cam5/index.m3u8",
-  roomH: "https://overstudiously-burglarproof-sid.ngrok-free.dev/api/cam6/index.m3u8",
+  roomA: "https://cctvlive.stackenzo.com/api/cam1/index.m3u8",
+  roomB: "https://cctvlive.stackenzo.com/api/cam2/index.m3u8",
+  roomC: "https://cctvlive.stackenzo.com/api/cam3/index.m3u8",
+  roomD: "https://cctvlive.stackenzo.com/api/cam4/index.m3u8",
+  // roomG: "https://overstudiously-burglarproof-sid.ngrok-free.dev/api/cam5/index.m3u8",
+  // roomH: "https://overstudiously-burglarproof-sid.ngrok-free.dev/api/cam6/index.m3u8",
 };
 
 const rooms = {
